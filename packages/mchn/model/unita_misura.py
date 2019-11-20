@@ -6,7 +6,7 @@ class Table(object):
     def config_db(self, pkg):
         tbl =  pkg.table('unita_misura', pkey='codice',name_plural = u'!![it]Unità misura',
                          name_long=u'!![it]Unità misura', 
-                         rowcaption='$codice',caption_field='codice')
+                         caption_field='codice',lookup=True)
         self.sysFields(tbl, id=False)
         tbl.column('codice',size=':6',name_long='!![it]Codice')
         tbl.column('descrizione',size=':32',name_long='!![it]Descrizione')

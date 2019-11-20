@@ -8,8 +8,8 @@ class Table(object):
     """ """
     def config_db(self, pkg):
         """erpy_base.tipo_unita_misura"""
-        tbl =  pkg.table('tipo_unita_misura', pkey='codice',name_plural = u'!![it]Tipi unità misura',
-                         name_long=u'!![it]Tipo unità misura', rowcaption='$codice:%s ')
+        tbl =  pkg.table('unita_misura_tipo', pkey='codice',name_plural = u'!![it]Tipi unità misura',
+                         name_long=u'!![it]Tipo unità misura',lookup=True,caption_field='descrizione')
         self.sysFields(tbl, id=False)
         tbl.column('codice',size=':12',name_long='!![it]Codice')
         tbl.column('relazione',name_long='!![it]Relazione')
