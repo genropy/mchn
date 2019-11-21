@@ -44,6 +44,7 @@ class Form(BaseComponent):
 
 
 class FormFromStruttura(BaseComponent):
+    py_requires="""gnrcomponents/dynamicform/dynamicform:DynamicForm"""
 
     def th_form(self, form):
         pane = form.record

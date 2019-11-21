@@ -13,3 +13,4 @@ class Table(object):
         tbl.column('valore_minimo', dtype='dec', name_long='!!Valore minimo')
         tbl.column('valore_massimo', dtype='dec', name_long='!!Valore massimo')
         tbl.column('step', dtype='dec', name_long='!!Step')
+        tbl.column('impostabile', dtype='B', name_long='!!Impostabile')
