@@ -9,9 +9,10 @@ class View(BaseComponent):
     def th_struct(self,struct):
         r = struct.view().rows()
         r.fieldcell('componente_tipo_id')
-        r.fieldcell('codice')
         r.fieldcell('descrizione')
-        r.fieldcell('misura_tipo_id')
+        r.fieldcell('misura_tipo')
+        r.fieldcell('misura_posizione')
+        r.fieldcell('misura_codice')
 
     def th_order(self):
         return 'componente_tipo_id'
@@ -24,11 +25,13 @@ class ViewFromTipo(BaseComponent):
 
     def th_struct(self,struct):
         r = struct.view().rows()
-        r.fieldcell('misura_tipo_id',edit=True,width='15em')
+        r.fieldcell('_row_count',counter=True,hidden=True)
+        r.fieldcell('misura_tipo',edit=dict(validate_notnull=True),width='15em')
+        r.fieldcell('misura_posizione',edit=dict(validate_notnull=True),width='15em')
         r.fieldcell('descrizione',edit=True,width='20em')
 
     def th_order(self):
-        return 'misura_tipo_id'
+        return '_row_count'
 
 
 class Form(BaseComponent):
@@ -37,9 +40,9 @@ class Form(BaseComponent):
         pane = form.record
         fb = pane.formbuilder(cols=2, border_spacing='4px')
         fb.field('componente_tipo_id')
-        fb.field('codice')
         fb.field('descrizione')
-        fb.field('misura_tipo_id')
+        fb.field('misura_tipo',validate_notnull=True)
+        fb.field('misura_posizione',validate_notnull=True)
 
 
     def th_options(self):

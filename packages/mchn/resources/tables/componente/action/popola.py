@@ -44,9 +44,9 @@ class Main(BaseResourceAction):
     def table_script_parameters_pane(self,pane,**kwargs):
         pane.data('.intervallo',5)
         fb = pane.formbuilder(cols=2, border_spacing='5px',dragClass='draggedItem')
-        fb.dateTextBox(value='^.data_inizio',lbl='Data Inizio')
+        fb.dateTextBox(value='^.data_inizio',lbl='Data Inizio',period_to='.data_fine')
+        fb.dateTextBox(value='^.data_fine',lbl='Fine')
         fb.timeTextBox(value='^.ora_inizio',lbl='Ora Inizio')
-        fb.dateTextBox(value='^.data_fine',lbl='Data Fine')
-        fb.timeTextBox(value='^.ora_fine',lbl='Ora Fine')
-        fb.textBox(value='^.intervallo', lbl='Intervallo')
+        fb.timeTextBox(value='^.ora_fine',lbl='Fine')
+        fb.numberTextbox(value='^.intervallo', lbl='Intervallo',width='5em')
         

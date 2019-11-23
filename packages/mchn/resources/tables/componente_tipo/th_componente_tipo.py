@@ -34,7 +34,8 @@ class Form(BaseComponent):
         form.htree.relatedTableHandler(th,dropOnRoot=False,inherited=True)
         tc.contentPane(title='Campi').fieldsGrid(margin='2px',rounded=6,border='1px solid silver')
         tc.contentPane(title='Valori misurabili').inlineTableHandler(relation='@valori_misurabili',viewResource='ViewFromTipo',
-                                                                    picker='misura_tipo_id',
+                                                                    picker='misura_tipo',
+                                                                    grid_selfDragRows=True,
                                                                     picker_uniqueRow=False)
 
     def th_options(self):

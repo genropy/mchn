@@ -7,3 +7,9 @@ class Table(object):
         self.sysFields(tbl,hierarchical='descrizione',hierarchical_root_id=True,counter=True)
         tbl.column('descrizione', size=':40', name_long='Descrizione')
         tbl.column('geocoder', name_long='Geocoder', name_short='Geocoder')
+
+    def applyOnTreeNodeAttr(self,_record=None,**kwargs):
+        result = dict()
+        if  _record.get('geocoder'):
+            result['geocoder'] = _record['geocoder'].replace(',',':')
+        return result

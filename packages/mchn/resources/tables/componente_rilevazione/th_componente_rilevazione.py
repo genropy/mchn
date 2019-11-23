@@ -5,21 +5,25 @@ from gnr.web.gnrbaseclasses import BaseComponent
 from gnr.core.gnrdecorator import public_method
 
 class View(BaseComponent):
+    def th_hiddencolumns(self):
+        return '#BAGCOLS($rilevazioni)'
 
     def th_struct(self,struct):
         r = struct.view().rows()
+        r.fieldcell('ts',name_long='TS',width='10em')
         r.fieldcell('componente_id')
-        r.fieldcell('componente_tipo_misura_id')
-        r.fieldcell('ts')
-        r.fieldcell('valore')
+        r.fieldcell('rilevazioni')
 
     def th_order(self):
-        return 'componente_id'
+        return 'ts:d'
 
     def th_query(self):
         return dict(column='componente_id', op='contains', val='')
 
 
+class ViewFromEmulatore(View):
+    pass
+    
 
 class Form(BaseComponent):
 
@@ -27,9 +31,7 @@ class Form(BaseComponent):
         pane = form.record
         fb = pane.formbuilder(cols=2, border_spacing='4px')
         fb.field('componente_id')
-        fb.field('componente_tipo_misura_id')
         fb.field('ts')
-        fb.field('valore')
 
 
     def th_options(self):
