@@ -27,9 +27,9 @@ class Table(object):
         tbl.column('ultima_rilevazione_id',size='22', group='_', name_long='Ultima rilevazione'
                     ).relation('componente_rilevazione.id',mode='foreignkey', onDelete='setnull',onDelete_sql='setnull')
         tbl.aliasColumn('valori_correnti','@ultima_rilevazione_id.rilevazioni')
+
     def counter_codice(self,record=None):
         return dict(format='$NNNNNN',showOnLoad=True,code='*')
-    
 
     @public_method
     def popola_rilevazioni_componenti(self, componenti_pkeys=None, ts=None, commit=True):
@@ -83,6 +83,8 @@ class Table(object):
             record['ultima_rilevazione_id']=record_rilevazione['id']
         if commit:
             self.db.commit()
+
+    
 
 
 

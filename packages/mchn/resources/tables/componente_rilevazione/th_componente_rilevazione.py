@@ -21,6 +21,16 @@ class View(BaseComponent):
         return dict(column='componente_id', op='contains', val='')
 
 
+class ViewFromComponente(View):
+    def th_struct(self,struct):
+        r = struct.view().rows()
+        r.fieldcell('ts',name_long='TS',width='10em')
+        r.fieldcell('componente_id')
+        r.fieldcell('rilevazioni')
+
+    def th_order(self):
+        return 'ts:d'
+    
 class ViewFromEmulatore(View):
     pass
     
@@ -28,10 +38,11 @@ class ViewFromEmulatore(View):
 class Form(BaseComponent):
 
     def th_form(self, form):
-        pane = form.record
-        fb = pane.formbuilder(cols=2, border_spacing='4px')
-        fb.field('componente_id')
+        bc = form.center.borderContainer(datapath='.record')
+        fb = bc.contentPane(region='top').formbuilder(cols=2, border_spacing='4px')
         fb.field('ts')
+        fb.field('componente_id')
+        bc.contentPane(region='center').quickGrid(value='^.rilevazioni')
 
 
     def th_options(self):

@@ -27,54 +27,45 @@ class View(BaseComponent):
 
 
 class Form(BaseComponent):
-
-    def th_form(self, form):
-        pane = form.record
-        fb = pane.formbuilder(cols=2, border_spacing='4px')
-        fb.field('codice')
-        fb.field('componente_tipo_id')
-        fb.field('descrizione',colspan=2)
-        fb.field('identificativo')
-        fb.field('data_installazione')
-        fb.field('struttura_id')
-
-
-    def th_options(self):
-        return dict(dialog_height='400px', dialog_width='600px')
-
-
-class FormFromStruttura(BaseComponent):
     py_requires="""gnrcomponents/dynamicform/dynamicform:DynamicForm"""
 
     def th_form(self, form):
-        pane = form.record
-        fb = pane.formbuilder(cols=2, border_spacing='4px')
-        fb.field('codice')
-        fb.field('componente_tipo_id')
-        fb.field('descrizione',colspan=2)
-        fb.field('identificativo')
-        fb.field('data_installazione')
-        fb.appendDynamicFields('dati_componente_tipo')
-
-
-    def th_options(self):
-        return dict(dialog_height='400px', dialog_width='600px')
-
-
-class FormFromTipo(BaseComponent):
-    py_requires="""gnrcomponents/dynamicform/dynamicform:DynamicForm"""
-                   #gnrcomponents/attachmanager/attachmanager:AttachManager"""
-
-    def th_form(self, form):
-        pane = form.record
-        fb = pane.formbuilder(cols=2, border_spacing='4px')
-        fb.field('codice')
+        bc = form.center.borderContainer()
+        fb = bc.contentPane(region='top',datapath='.record'
+                        ).div(margin='10px',
+                        margin_right='20px').formbuilder(cols=2, border_spacing='4px',
+                                                    colswidth='auto',fld_width='100%')
+        fb.field('codice',max_width='7em',readOnly=True)
+        fb.field('descrizione')
+        fb.field('componente_tipo_id',tag='hdbselect')
         fb.field('struttura_id')
-        fb.field('descrizione',colspan=2)
+        fb.field('data_installazione',max_width='7em')
         fb.field('identificativo')
-        fb.field('data_installazione')
-        fb.appendDynamicFields('dati_componente_tipo')
+        tc = bc.tabContainer(margin='2px',region='center')
+        self.rilevazioniComponente(tc.contentPane(title='Rilevazioni'))
+
+        tc.contentPane(title='Caratteristiche componente',
+                    datapath='.record'
+                    ).dynamicFieldsPane('dati_componente_tipo')
+    
+    def rilevazioniComponente(self,pane):
+        pane.plainTableHandler(relation='@rilevazioni',
+                                viewResource='ViewFromComponente',
+                                grid_structpath='#FORM.record.struttura_rilevazioni',
+                                view_store_limit=1000)
 
 
     def th_options(self):
-        return dict(dialog_height='400px', dialog_width='600px')
+        return dict(dialog_windowRatio=.8)
+    
+    @public_method
+    def th_onLoading(self, record, newrecord, loadingParameters, recInfo):
+        record['struttura_rilevazioni'] = self.db.table('mchn.componente_tipo'
+                        ).getStrutturaRipartizioni(tipo_id=record['componente_tipo_id'],
+                                                    colonnaComponente=False)
+
+class FormFromStruttura(Form):
+    pass
+
+class FormFromTipo(Form):
+    pass
